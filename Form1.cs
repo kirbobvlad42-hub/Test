@@ -60,26 +60,35 @@ namespace FinalProject
 
         }
 
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            /*if (checkedListBox1.CheckedItems.Count != 0)
+
+            string query = $@"
+                SELECT  Passanger.Name,
+                Passanger.Surname,
+                de.Location AS Airport,
+                ar.Location AS Flight
+                FROM Passanger
+                JOIN Trip ON Trip.PassangerID = Passanger.ID
+                JOIN Airport de ON de.ID = Trip.DepartueAirportID
+                JOIN Airport ar ON ar.ID = Trip.ArrivalAirportID";
+        
+            this.BeginInvoke((() =>
             {
-                string s = "";
-                for (int x = 0; x < checkedListBox1.CheckedItems.Count; x++)
+                foreach (DataGridViewColumn column in dataGridView1.Columns)
                 {
-                    s = s + "Checked Item " + (x + 1).ToString() + " = " + checkedListBox1.CheckedItems[x].ToString() + "\n";
+                    column.Visible = checkedListBox1.CheckedItems.Contains(column.HeaderText);
                 }
-                MessageBox.Show(s);
-            }*/
+            }));
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string connectionStri = "Data Source=C:\\SQL\\Trips and Airports1.db";
+            string connectionString = "Data Source=C:\\SQL\\Trips and Airports1.db";
 
             try
             {
-                using (var connection = new SqliteConnection(connectionStri))
+                using (var connection = new SqliteConnection(connectionString))
                 {
                     connection.Open();
                     using (var command = new SqliteCommand(@"INSERT INTO Trip (DepartueAirportID,ArrivalAirportID,PlaneID,PassangerID) VALUES (@Eirport,@Flightt,@PLANeId,@PASSangerId)", connection))
@@ -88,6 +97,7 @@ namespace FinalProject
                         command.Parameters.AddWithValue("@Flightt", textBox5.Text);
                         command.Parameters.AddWithValue("@PLANeId", textBox6.Text);
                         command.Parameters.AddWithValue("@PASSangerId", textBox7.Text);
+                        command.ExecuteNonQuery();
                     }
                     MessageBox.Show("Done");
                 }
@@ -103,17 +113,18 @@ namespace FinalProject
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string connectionStrin = "Data Source=C:\\SQL\\Trips and Airports1.db";
+            string connectionString = "Data Source=C:\\SQL\\Trips and Airports1.db";
 
             try 
             {
-                using (var connection = new SqliteConnection(connectionStrin))
+                using (var connection = new SqliteConnection(connectionString))
                 {
                     connection.Open();
                     using (var command = new SqliteCommand(@"INSERT INTO Passanger (Name,Surname) VALUES (@NAM, @SURNAM)", connection))
                     {
                         command.Parameters.AddWithValue("@NAM", textBox2.Text);
                         command.Parameters.AddWithValue("@SURNAM", textBox3.Text);
+                        command.ExecuteNonQuery();
                     }
                     MessageBox.Show("Done");
                 }
