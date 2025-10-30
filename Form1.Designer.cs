@@ -105,7 +105,7 @@
             checkedListBox1.Name = "checkedListBox1";
             checkedListBox1.Size = new Size(163, 76);
             checkedListBox1.TabIndex = 5;
-            checkedListBox1.SelectedIndexChanged += checkedListBox1_SelectedIndexChanged;
+            checkedListBox1.ItemCheck += checkedListBox1_ItemCheck;
             // 
             // textBox2
             // 
