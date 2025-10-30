@@ -73,7 +73,7 @@ namespace FinalProject
                 JOIN Airport de ON de.ID = Trip.DepartueAirportID
                 JOIN Airport ar ON ar.ID = Trip.ArrivalAirportID";
         
-            this.BeginInvoke(/*(Action)*/(() =>
+            this.BeginInvoke((() =>
             {
                 foreach (DataGridViewColumn column in dataGridView1.Columns)
                 {
